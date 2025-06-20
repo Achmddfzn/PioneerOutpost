@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Durango Survivors Forum - Redesigned</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    <style>
+        /* --- Root Variables & Base Styles (GitHub-inspired) --- */
+        :root {
+            --gh-background-primary: #ffffff; /* Lighter background */
+            --gh-background-secondary: #f6f8fa; /* Subtle secondary background for sections */
+            --gh-border-color: #d0d7de; /* Light grey border */
+            --gh-text-color-primary: #24292f; /* Dark text for headings/main content */
+            --gh-text-color-secondary: #57606a; /* Lighter text for secondary info */
+            --gh-accent-blue: #0969da; /* GitHub's primary blue */
+            --gh-accent-green: #2da44e; /* GitHub's green for success/new */
+            --gh-accent-red: #cf222e; /* GitHub's red for danger/delete */
+            --gh-shadow-light: 0 1px 0 rgba(27,31,35,0.04), inset 0 1px 0 rgba(255,255,255,0.25); /* Subtle inner shadow for elements */
+            --gh-shadow-medium: 0 3px 6px rgba(140,149,159,0.15); /* More pronounced shadow */
+            --header-height: 64px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Modern, clean sans-serif font */
+            margin: 0;
+            padding: 0;
+            background-color: var(--gh-background-secondary);
+            color: var(--gh-text-color-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1280px; /* Slightly wider */
+            margin: 0 auto;
+            padding: 0 24px; /* Consistent padding */
+        }
+
+        a {
+            color: var(--gh-accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: #0550ae; /* Darker blue on hover */
+            text-decoration: underline;
+        }
+
+        /* --- Header Styling (GitHub-inspired) --- */
+        header {
+            background-color: var(--gh-text-color-primary); /* Dark header, like GitHub's top bar */
+            color: #fff;
+            padding: 0;
+            box-shadow: var(--gh-shadow-medium);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: var(--header-height);
+            display: flex;
+            align-items: center;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0 24px; /* Adjust padding for header container */
+            height: var(--header-height); /* Make header take full height */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em; /* More subtle logo text */
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        header h1 a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        header h1 a:hover {
+            color: var(--gh-accent-blue);
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: flex-end;
+            gap: 20px; /* Spacing between nav items */
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        header nav ul li {
+            margin-left: 20px; /* Reduced spacing */
+            position: relative;
+        }
+
+        header nav ul li:last-child {
+            margin-left: 25px; /* More space before buttons */
+        }
+
+        header nav ul li a {
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.95em;
+            padding: 5px 0; /* No underline effect, just padding */
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.9;
+            transition: opacity 0.2s ease;
+        }
+
+        header nav ul li a:hover {
+            opacity: 1;
+            color: #fff; /* Keep color white on hover */
+            text-decoration: none;
+        }
+
+        /* Search Bar in Header */
+        .search-container {
+            margin-left: 20px;
+            position: relative;
+            flex-shrink: 0; /* Prevent shrinking too much */
+        }
+
+        .search-container input {
+            padding: 8px 12px 8px 30px; /* Padding for icon */
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 0.9em;
+            width: 160px; /* Default width */
+            transition: width 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            width: 200px; /* Expand on focus */
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-container .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+            pointer-events: none; /* Make icon unclickable */
+        }
+
+        /* Notification Icon */
+        .notification-icon {
+            margin-left: 20px;
+            position: relative;
+            cursor: pointer;
+            color: #fff;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .notification-icon:hover {
+            color: var(--gh-accent-blue);
+        }
+
+        .notification-icon .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--gh-accent-red);
+            color: #fff;
+            font-size: 0.65em;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: bold;
+            border: 1px solid var(--gh-text-color-primary);
+        }
+
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 40px; /* Adjust based on icon position */
+            right: 0;
+            background-color: var(--gh-background-primary);
+            border: 1px solid var(--gh-border-color);
+            border-radius: 6px;
+            box-shadow: 0 8px 16px rgba(140,149,159,0.15);
+            min-width: 300px;
+            z-index: 101;
+            padding: 8px 0;
+        }
+        .notification-dropdown.active {
+            display: block;
+        }
+
+        .notification-item {
+            padding: 10px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9em;
+            color: var(--gh-text-color-primary);
+            line-height: 1.4;
+            display: block;
+            white-space: normal;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .notification-item:hover {
+            background-color: var(--gh-background-secondary);
+            text-decoration: none;
+        }
+        .notification-item strong {
+            color: var(--gh-accent-blue);
+        }
+        .notification-item .time {
+            font-size: 0.8em;
+            color: var(--gh-text-color-secondary);
+            display: block;
+            margin-top: 3px;
+        }
+
+        /* --- Button Styling (GitHub-inspired) --- */
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid var(--gh-border-color); /* Subtle border */
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            box-shadow: var(--gh-shadow-light); /* Subtle shadow for buttons */
+        }
+
+        .btn i {
+            font-size: 0.9em;
+        }
+
+        .btn-primary {
+            background-color: var(--gh-accent-blue);
+            color: #fff;
+            border-color: #004d9c; /* Darker border for primary */
+        }
+
+        .btn-primary:hover {
+            background-color: #0550ae;
+            border-color: #00458a;
+            box-shadow: 0 1px 0 rgba(27,31,35,0.1);
+        }
+
+        .btn-success {
+            background-color: var(--gh-accent-green);
+            color: #fff;
+            border-color: #248c42;
+        }
+
+        .btn-success:hover {
+            background-color: #2c974b;
+            border-color: #248c42;
+            box-shadow: 0 1px 0 rgba(27,31,35,0.1);
+        }
+
+        .btn-secondary {
+            background-color: #f6f8fa;
+            color: var(--gh-text-color-primary);
+            border-color: rgba(27,31,35,0.15);
+        }
+        .btn-secondary:hover {
+            background-color: #f3f4f6;
+            border-color: rgba(27,31,35,0.3);
+            box-shadow: 0 1px 0 rgba(27,31,35,0.08);
+        }
+
+        /* --- Main Content Layout --- */
+        main {
+            padding-top: 40px;
+            padding-bottom: 60px;
+        }
+
+        section {
+            background-color: var(--gh-background-primary);
+            border-radius: 8px;
+            padding: 32px; /* Reduced padding */
+            margin-bottom: 30px;
+            box-shadow: 0 1px 0 rgba(27,31,35,0.04), inset 0 1px 0 rgba(255,255,255,0.25); /* Subtle border shadow */
+            border: 1px solid var(--gh-border-color);
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        section:hover {
+            box-shadow: 0 3px 6px rgba(140,149,159,0.1); /* Slightly deeper shadow on hover */
+        }
+
+        section h3 {
+            margin-top: 0;
+            color: var(--gh-text-color-primary);
+            font-size: 1.8em; /* Slightly smaller, more balanced */
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        section h3::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 60px; /* Shorter underline */
+            height: 2px;
+            background-color: var(--gh-accent-blue);
+            border-radius: 1px;
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            text-align: center;
+            background: linear-gradient(135deg, #eff6fc 0%, #dbe9f6 100%); /* Lighter, more subtle gradient */
+            border-left: none;
+            position: relative;
+            overflow: hidden;
+            padding: 50px 24px; /* Reduced padding */
+            border-radius: 8px;
+            border: 1px solid #c7dcef;
+        }
+
+        #hero h2 {
+            color: var(--gh-text-color-primary);
+            font-size: 2.8em; /* Balanced heading size */
+            margin-bottom: 12px;
+            font-weight: 700;
+            text-shadow: none; /* No text shadow */
+        }
+
+        #hero p {
+            font-family: 'Inter', sans-serif; /* Consistent font */
+            font-size: 1.1em;
+            color: var(--gh-text-color-secondary);
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+        }
+
+        /* --- Category Grid --- */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly smaller min-width */
+            gap: 20px; /* Reduced spacing */
+        }
+
+        .category-card {
+            background-color: var(--gh-background-secondary); /* Lighter card background */
+            border-radius: 8px;
+            padding: 25px; /* Reduced padding */
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            border: 1px solid var(--gh-border-color);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px); /* More subtle lift */
+            box-shadow: 0 5px 15px rgba(140,149,159,0.1);
+            background-color: #eef2f5; /* Subtle background change */
+        }
+
+        .category-card h4 {
+            margin-top: 0;
+            font-size: 1.4em; /* Smaller category titles */
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--gh-text-color-primary);
+        }
+
+        .category-card h4 a {
+            color: var(--gh-text-color-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .category-card h4 a:hover {
+            color: var(--gh-accent-blue);
+            text-decoration: underline;
+        }
+
+        .category-card p {
+            font-size: 0.95em;
+            color: var(--gh-text-color-secondary);
+            margin-bottom: 20px;
+        }
+
+        .category-card .post-count {
+            font-size: 0.85em;
+            color: var(--gh-accent-blue);
+            background-color: #ddf4ff; /* Lighter blue background */
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            letter-spacing: 0;
+            border: 1px solid #a6d7f9;
+        }
+
+        /* --- Latest Topics --- */
+        .topic-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .topic-list li {
+            background-color: var(--gh-background-primary);
+            border: 1px solid var(--gh-border-color);
+            border-radius: 8px;
+            padding: 18px 24px; /* Reduced padding */
+            margin-bottom: 12px; /* Reduced space between topics */
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+            box-shadow: 0 1px 0 rgba(27,31,35,0.04);
+        }
+
+        .topic-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(140,149,159,0.1);
+            border-color: var(--gh-accent-blue); /* Highlight border on hover */
+        }
+
+        .topic-list li a {
+            font-weight: 600;
+            color: var(--gh-text-color-primary);
+            font-size: 1.05em; /* Slightly smaller topic titles */
+            flex-grow: 1;
+            margin-right: 15px;
+        }
+
+        .topic-list li a:hover {
+            color: var(--gh-accent-blue);
+            text-decoration: underline;
+        }
+
+        .topic-list li .topic-meta {
+            font-size: 0.85em;
+            color: var(--gh-text-color-secondary);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .topic-list li .topic-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .topic-list li .topic-meta i {
+            color: var(--gh-accent-blue);
+            font-size: 0.85em;
+        }
+
+        /* --- Member Grid (New Section) --- */
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .member-card {
+            background-color: var(--gh-background-secondary);
+            border: 1px solid var(--gh-border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 1px 0 rgba(27,31,35,0.04);
+        }
+        .member-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(140,149,159,0.1);
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--gh-accent-blue);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2em;
+            font-weight: 600;
+            margin: 0 auto 15px auto;
+            border: 2px solid #a6d7f9;
+            overflow: hidden;
+        }
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-card h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.3em;
+            color: var(--gh-text-color-primary);
+        }
+
+        .member-card p {
+            font-size: 0.9em;
+            color: var(--gh-text-color-secondary);
+            margin-bottom: 15px;
+        }
+
+        /* --- User Profile Section (Simulated) --- */
+        #user-profile {
+            padding: 40px 32px;
+            text-align: center;
+        }
+        #user-profile .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        #user-profile .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--gh-accent-blue);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3.5em;
+            margin-bottom: 12px;
+            border: 3px solid var(--gh-accent-blue);
+            box-shadow: 0 2px 8px rgba(9,105,218,0.2);
+            overflow: hidden;
+        }
+        #user-profile .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #user-profile h2 {
+            font-size: 2.2em;
+            margin-bottom: 4px;
+            color: var(--gh-text-color-primary);
+        }
+        #user-profile .username-tag {
+            font-size: 1em;
+            color: var(--gh-text-color-secondary);
+            margin-bottom: 18px;
+        }
+        #user-profile .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--gh-border-color);
+            padding-bottom: 20px;
+        }
+        #user-profile .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1em;
+            color: var(--gh-text-color-secondary);
+        }
+        #user-profile .stat-item strong {
+            font-size: 1.6em;
+            color: var(--gh-accent-blue);
+            font-weight: 700;
+        }
+        #user-profile .profile-bio {
+            text-align: left;
+            max-width: 700px;
+            margin: 0 auto 25px auto;
+            border-top: 1px solid var(--gh-border-color);
+            padding-top: 20px;
+        }
+        #user-profile .profile-bio h4 {
+            font-size: 1.2em;
+            color: var(--gh-text-color-primary);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        #user-profile .profile-bio p {
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        #user-profile .profile-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .mt-4 {
+            margin-top: 24px;
+        }
+
+
+        /* --- Footer Styling --- */
+        footer {
+            background-color: var(--gh-text-color-primary);
+            color: #ccc;
+            text-align: center;
+            padding: 25px 0;
+            font-size: 0.85em;
+            margin-top: 40px;
+            box-shadow: 0 -1px 0 rgba(27,31,35,0.04);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        footer i {
+            color: var(--gh-accent-red);
+            margin: 0 4px;
+        }
+
+        /* --- Modal Styles (General) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6); /* Slightly less opaque */
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(6px); /* Slightly less blur */
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--gh-background-primary);
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 550px; /* Slightly smaller max-width */
+            box-shadow: 0 10px 20px rgba(140,149,159,0.2);
+            position: relative;
+            animation: fadeInScale 0.3s ease-out forwards;
+            border: 1px solid var(--gh-border-color);
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.98) translateY(10px); /* Subtle slide-up */
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .close-button {
+            color: var(--gh-text-color-secondary);
+            font-size: 28px; /* Slightly smaller close button */
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.1s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--gh-accent-red);
+            transform: rotate(5deg);
+        }
+
+        .modal h2 {
+            text-align: center;
+            color: var(--gh-text-color-primary);
+            margin-bottom: 25px;
+            font-size: 2em;
+            font-weight: 600;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gh-text-color-primary);
+            font-size: 0.95em;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group textarea,
+        .form-group select {
+            width: calc(100% - 20px); /* Account for padding */
+            padding: 10px;
+            border: 1px solid var(--gh-border-color);
+            border-radius: 6px;
+            font-size: 0.95em;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            resize: vertical;
+            min-height: 40px; /* Slightly smaller min-height */
+            box-shadow: inset 0 1px 0 rgba(208,215,222,0.2);
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gh-accent-blue);
+            box-shadow: 0 0 0 3px rgba(9,105,218,0.2); /* GitHub-style focus ring */
+        }
+
+        .modal .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: var(--gh-text-color-secondary);
+        }
+        .switch-form a {
+            font-weight: 600;
+            color: var(--gh-accent-blue);
+        }
+
+        /* Quill Editor Specific Styles (Adjusted for GitHub feel) */
+        #editor-container {
+            height: 200px; /* Slightly shorter for compactness */
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--gh-border-color);
+        }
+        .ql-toolbar.ql-snow {
+            border-radius: 6px 6px 0 0;
+            border-color: var(--gh-border-color);
+            background-color: #f0f3f6; /* Lighter toolbar background */
+        }
+        .ql-container.ql-snow {
+            border-radius: 0 0 6px 6px;
+            border-color: var(--gh-border-color);
+        }
+        .ql-editor {
+            font-family: 'Inter', sans-serif; /* Use Inter for editor content */
+            font-size: 0.95em;
+            color: var(--gh-text-color-primary);
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            header .container {
+                flex-direction: column;
+                height: auto; /* Allow header to expand */
+                padding: 15px 24px;
+            }
+            header h1 {
+                margin-bottom: 15px;
+            }
+            header nav {
+                justify-content: center;
+                flex-wrap: wrap; /* Allow nav items to wrap */
+                gap: 15px; /* Adjust gap for smaller screens */
+            }
+            header nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            header nav ul li {
+                margin: 0 10px 10px 10px; /* Adjust spacing */
+            }
+            header nav ul li:last-child {
+                margin-left: 10px; /* Consistent spacing */
+            }
+            .search-container {
+                margin: 10px 0;
+                width: 100%;
+                order: 1; /* Place search below nav links */
+            }
+            .search-container input {
+                width: calc(100% - 20px);
+            }
+            .search-container input:focus {
+                width: calc(100% - 20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px; /* Smaller padding */
+            }
+            #hero h2 {
+                font-size: 2.2em;
+            }
+            #hero p {
+                font-size: 1em;
+            }
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            .topic-list li {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 18px;
+            }
+            .topic-list li a {
+                font-size: 1em;
+                margin-bottom: 4px;
+                margin-right: 0;
+            }
+            .topic-list li .topic-meta {
+                font-size: 0.8em;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            section {
+                padding: 25px;
+            }
+            .modal-content {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.6em;
+            }
+            header nav ul li a {
+                font-size: 0.85em;
+            }
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+            #hero h2 {
+                font-size: 1.8em;
+            }
+            #hero p {
+                font-size: 0.9em;
+            }
+            section h3 {
+                font-size: 1.6em;
+            }
+            .category-card {
+                padding: 20px;
+            }
+            .category-card h4 {
+                font-size: 1.2em;
+            }
+            .modal-content {
+                padding: 20px;
+                border-radius: 8px;
+            }
+            .close-button {
+                font-size: 24px;
+                top: 12px;
+                right: 12px;
+            }
+            .modal h2 {
+                font-size: 1.6em;
+                margin-bottom: 18px;
+            }
+            .form-group label {
+                font-size: 0.9em;
+            }
+            .form-group input, .form-group textarea, .form-group select {
+                font-size: 0.9em;
+                padding: 8px;
+            }
+            .modal .btn {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="#">Durango Survivors Forum</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="#forum-categories"><i class="fas fa-comments"></i> Diskusi</a></li>
+                    <li><a href="#members-section"><i class="fas fa-users"></i> Anggota</a></li>
+                    <li><a href="#about"><i class="fas fa-info-circle"></i> Tentang</a></li>
+                    <li>
+                        <a href="#" id="notificationIcon" class="notification-icon">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge" id="notificationBadge">3</span>
+                        </a>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <a href="#" class="notification-item"><strong>PionirSejati</strong> membalas topik Anda. <span class="time">5 menit lalu</span></a>
+                            <a href="#" class="notification-item"><strong>CrafterPro</strong> menyebut Anda di postingan. <span class="time">1 jam lalu</span></a>
+                            <a href="#" class="notification-item">Ada event berburu dino baru! <span class="time">1 hari lalu</span></a>
+                            <a href="#" class="notification-item">Lihat semua notifikasi <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Cari topik...">
+                </div>
+                <button id="loginBtn" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Masuk / Daftar</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="hero">
+            <h2>Selamat Datang, Para Pionir!</h2>
+            <p>Ruang berkumpul bagi penggemar Durango: Wild Lands dan yang menantikan Project DX. Mari berdiskusi, berbagi tips, dan menghidupkan kembali kenangan di dunia prasejarah!</p>
+            <button id="newTopicBtn" class="btn btn-success"><i class="fas fa-plus-circle"></i> Mulai Topik Baru</button>
+        </section>
+
+        <section id="forum-categories">
+            <h3>Kategori Diskusi</h3>
+            <div class="category-grid">
+                <div class="category-card">
+                    <h4><a href="#"><i class="fas fa-history"></i> Nostalgia Durango Lama</a></h4>
+                    <p>Membahas kenangan, tips & trik dari game asli.</p>
+                    <span class="post-count"><i class="fas fa-pencil-alt"></i> 500 Postingan</span>
+                </div>
+                <div class="category-card">
+                    <h4><a href="#"><i class="fas fa-lightbulb"></i> Project DX: Harapan & Spekulasi</a></h4>
+                    <p>Diskusi tentang game penerus Durango.</p>
+                    <span class="post-count"><i class="fas fa-pencil-alt"></i> 230 Postingan</span>
+                </div>
+                <div class="category-card">
+                    <h4><a href="#"><i class="fas fa-compass"></i> Strategi Survival & Bangunan</a></h4>
+                    <p>Tips bertahan hidup, membangun base, dan craft.</p>
+                    <span class="post-count"><i class="fas fa-pencil-alt"></i> 180 Postingan</span>
+                </div>
+                <div class="category-card">
+                    <h4><a href="#"><i class="fas fa-paint-brush"></i> Fan Art & Kreasi</a></h4>
+                    <p>Bagikan karya seni, cerita, atau modifikasi buatanmu.</p>
+                    <span class="post-count"><i class="fas fa-pencil-alt"></i> 120 Postingan</span>
+                </div>
+                <div class="category-card">
+                    <h4><a href="#"><i class="fas fa-book"></i> Knowledge Base / Wiki</a></h4>
+                    <p>Panduan lengkap, tips, dan informasi penting.</p>
+                    <span class="post-count"><i class="fas fa-pencil-alt"></i> 75 Postingan</span>
+                </div>
+                <div class="category-card">
+                    <h4><a href="#"><i class="fas fa-users-cog"></i> Tribe & Rekrutmen</a></h4>
+                    <p>Cari atau rekrut anggota untuk Tribe Anda.</p>
+                    <span class="post-count"><i class="fas fa-pencil-alt"></i> 90 Postingan</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="latest-topics">
+            <h3>Topik Terbaru</h3>
+            <ul id="topic-list" class="topic-list">
+                </ul>
+        </section>
+
+        <section id="members-section">
+            <h3>Anggota Komunitas</h3>
+            <div class="member-grid">
+                <div class="member-card" data-username="PionirSejati">
+                    <div class="member-avatar">PS</div>
+                    <h4>PionirSejati</h4>
+                    <p>Level 99 | Tribe: AlphaDinos</p>
+                    <button class="btn btn-secondary view-profile-btn" data-username="PionirSejati"><i class="fas fa-user-circle"></i> Lihat Profil</button>
+                </div>
+                <div class="member-card" data-username="CrafterPro">
+                    <div class="member-avatar">CP</div>
+                    <h4>CrafterPro</h4>
+                    <p>Level 85 | Tribe: DinoCrafters</p>
+                    <button class="btn btn-secondary view-profile-btn" data-username="CrafterPro"><i class="fas fa-user-circle"></i> Lihat Profil</button>
+                </div>
+                <div class="member-card" data-username="LoreKeeper">
+                    <div class="member-avatar">LK</div>
+                    <h4>LoreKeeper</h4>
+                    <p>Level 70 | Tribe: OldWorldLore</p>
+                    <button class="btn btn-secondary view-profile-btn" data-username="LoreKeeper"><i class="fas fa-user-circle"></i> Lihat Profil</button>
+                </div>
+                </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary"><i class="fas fa-users"></i> Lihat Semua Anggota</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Durango Survivors Forum. Dibuat dengan <i class="fas fa-heart"></i> untuk para pionir.</p>
+        </div>
+    </footer>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="authModal">&times;</span>
+            <h2>Masuk atau Daftar</h2>
+            <form id="authForm">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Nama Pengguna:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Kata Sandi:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Masuk</button>
+                <p class="switch-form">Belum punya akun? <a href="#" id="showRegister">Daftar di sini</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="newTopicModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="newTopicModal">&times;</span>
+            <h2>Buat Topik Baru</h2>
+            <form id="newTopicForm">
+                <div class="form-group">
+                    <label for="topicTitle"><i class="fas fa-heading"></i> Judul Topik:</label>
+                    <input type="text" id="topicTitle" name="topicTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="topicContent"><i class="fas fa-edit"></i> Isi Topik:</label>
+                    <div id="editor-container"></div> <textarea id="topicContentHidden" name="topicContent" style="display:none;"></textarea> </div>
+                <div class="form-group">
+                    <label for="topicCategory"><i class="fas fa-tags"></i> Kategori:</label>
+                    <select id="topicCategory" name="topicCategory">
+                        <option value="">Pilih Kategori</option>
+                        <option value="nostalgia">Nostalgia Durango Lama</option>
+                        <option value="project-dx">Project DX: Harapan & Spekulasi</option>
+                        <option value="survival-strategy">Strategi Survival & Bangunan</option>
+                        <option value="fan-art">Fan Art & Kreasi</option>
+                        <option value="knowledge-base">Knowledge Base / Wiki</option>
+                        <option value="tribe">Tribe & Rekrutmen</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane"></i> Publikasikan Topik</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="profileModal">&times;</span>
+            <div id="profileContent">
+                </div>
+            <button class="btn btn-primary mt-4" id="editProfileBtn"><i class="fas fa-user-edit"></i> Edit Profil</button>
+        </div>
+    </div>
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="editProfileModal">&times;</span>
+            <h2>Edit Profil</h2>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label for="editAvatar"><i class="fas fa-image"></i> URL Avatar:</label>
+                    <input type="text" id="editAvatar" name="editAvatar" placeholder="URL gambar avatar Anda">
+                </div>
+                <div class="form-group">
+                    <label for="editBio"><i class="fas fa-info-circle"></i> Bio:</label>
+                    <textarea id="editBio" name="editBio" rows="4" placeholder="Ceritakan tentang diri Anda atau petualangan Anda di Durango."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editInGameName"><i class="fas fa-gamepad"></i> Nama Karakter In-Game:</label>
+                    <input type="text" id="editInGameName" name="editInGameName">
+                </div>
+                <div class="form-group">
+                    <label for="editTribe"><i class="fas fa-shield-alt"></i> Tribe/Clan:</label>
+                    <input type="text" id="editTribe" name="editTribe">
+                </div>
+                <div class="form-group">
+                    <label for="editFavDino"><i class="fas fa-paw"></i> Dinosaurus Favorit:</label>
+                    <input type="text" id="editFavDino" name="editFavDino">
+                </div>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Global Modal Functionality ---
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close-button');
+
+            // Function to open a specific modal
+            const openModal = (modalId) => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('active');
+                }
+            };
+
+            // Function to close a specific modal
+            const closeModal = (modalId) => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+            };
+
+            // Close modal when close button is clicked
+            closeButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const modalId = event.target.dataset.modal;
+                    closeModal(modalId);
+                });
+            });
+
+            // Close modal when clicking outside of the modal content
+            modals.forEach(modal => {
+                modal.addEventListener('click', (event) => {
+                    if (event.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            });
+
+            // --- Header Interactions ---
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => openModal('authModal'));
+            }
+
+            const newTopicBtn = document.getElementById('newTopicBtn');
+            if (newTopicBtn) {
+                newTopicBtn.addEventListener('click', () => {
+                    openModal('newTopicModal');
+                    // Initialize Quill editor only when the modal is opened
+                    if (!window.quillEditor) { // Prevent re-initialization
+                        window.quillEditor = new Quill('#editor-container', {
+                            theme: 'snow',
+                            placeholder: 'Tulis isi topik Anda di sini...',
+                            modules: {
+                                toolbar: [
+                                    [{ 'header': [1, 2, false] }],
+                                    ['bold', 'italic', 'underline', 'strike'],
+                                    ['blockquote', 'code-block'],
+                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                                    ['link', 'image'],
+                                    ['clean']
+                                ]
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Notification Dropdown
+            const notificationIcon = document.getElementById('notificationIcon');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const notificationBadge = document.getElementById('notificationBadge');
+
+            if (notificationIcon) {
+                notificationIcon.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    notificationDropdown.classList.toggle('active');
+                    if (notificationDropdown.classList.contains('active') && notificationBadge) {
+                        notificationBadge.style.display = 'none'; // Hide badge when opened
+                    }
+                });
+            }
+
+            // Close notification dropdown if clicked outside
+            window.addEventListener('click', (event) => {
+                if (notificationDropdown && !notificationIcon.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                    notificationDropdown.classList.remove('active');
+                }
+            });
+
+
+            // --- Form Submissions (Simulated) ---
+            const authForm = document.getElementById('authForm');
+            if (authForm) {
+                authForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    const username = document.getElementById('username').value;
+                    console.log('Login/Register Attempt (Simulated):', { username, password: '***' });
+                    alert(`Login/Register berhasil (simulasi) untuk ${username}! Fitur ini memerlukan backend.`);
+                    closeModal('authModal');
+                });
+            }
+
+            const showRegisterLink = document.getElementById('showRegister');
+            if (showRegisterLink) {
+                showRegisterLink.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    alert('Simulasi: Anda akan diarahkan ke halaman registrasi atau form akan berubah.');
+                    // In a real app, you might change the form content or redirect
+                });
+            }
+
+            const newTopicForm = document.getElementById('newTopicForm');
+            if (newTopicForm) {
+                newTopicForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    const title = document.getElementById('topicTitle').value;
+                    // Get HTML content from Quill editor
+                    const content = window.quillEditor ? window.quillEditor.root.innerHTML : ''; 
+                    const category = document.getElementById('topicCategory').value;
+
+                    // Update the hidden textarea for potential server submission if this were real
+                    document.getElementById('topicContentHidden').value = content;
+
+                    console.log('New Topic Submitted (Simulated):', { title, content, category });
+                    alert(`Topik "${title}" berhasil dipublikasikan (simulasi)! Konten: \n${content.substring(0, 100)}... Fitur ini memerlukan backend.`);
+                    closeModal('newTopicModal');
+                    // Reset Quill editor after submission (optional)
+                    if (window.quillEditor) {
+                        window.quillEditor.setText('');
+                    }
+                    newTopicForm.reset(); // Reset form fields
+                    
+                    // Add dummy new topic to the list
+                    const topicList = document.getElementById('topic-list');
+                    if (topicList) {
+                        const newListItem = document.createElement('li');
+                        newListItem.innerHTML = `
+                            <a href="#">${title}</a>
+                            <span class="topic-meta">
+                                <i class="fas fa-user-circle"></i> oleh PenggunaBaru
+                                <i class="fas fa-clock"></i> Baru saja
+                            </span>
+                        `;
+                        topicList.prepend(newListItem); // Add to the top
+                    }
+                });
+            }
+
+            // --- Dynamic Content Loading (Dummy Data for Topics) ---
+            const topicList = document.getElementById('topic-list');
+            const latestTopicsData = [
+                { title: 'Cari Grup untuk Berburu T-Rex di Tier 50!', author: 'DinoHunter', date: '1 hari lalu' },
+                { title: 'Apakah ada yang tahu cara buat Armor Apex?', author: 'CrafterPro', date: '2 hari lalu' },
+                { title: 'Teori Konspirasi: Kenapa Durango ditutup?', author: 'LoreKeeper', date: '3 hari lalu' },
+                { title: 'Share Screenshot Base Terbaik Kalian!', author: 'BaseBuilder', date: '4 hari lalu' },
+                { title: 'Masa depan Project DX: Apa yang kalian harapkan?', author: 'FutureGamer', date: '5 hari lalu' },
+            ];
+
+            if (topicList) {
+                latestTopicsData.forEach(topic => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <a href="#">${topic.title}</a>
+                        <span class="topic-meta">
+                            <i class="fas fa-user-circle"></i> oleh ${topic.author}
+                            <i class="fas fa-clock"></i> ${topic.date}
+                        </span>
+                    `;
+                    topicList.appendChild(listItem);
+                });
+            }
+
+            // --- User Profile Logic (Simulated) ---
+            const viewProfileButtons = document.querySelectorAll('.view-profile-btn');
+            const profileModal = document.getElementById('profileModal');
+            const profileContent = document.getElementById('profileContent');
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            const editProfileModal = document.getElementById('editProfileModal');
+            const editProfileForm = document.getElementById('editProfileForm');
+
+            // Dummy user data
+            const dummyUsers = {
+                "PionirSejati": {
+                    avatar: "https://placehold.co/150x150/0969da/ffffff?text=PS",
+                    name: "PionirSejati",
+                    usernameTag: "@PionirSejati",
+                    joined: "Januari 2018",
+                    posts: 1250,
+                    topics: 85,
+                    inGameName: "SejatiTheGreat",
+                    tribe: "AlphaDinos",
+                    favDino: "T-Rex",
+                    bio: "Seorang pionir berpengalaman yang telah menjelajahi setiap sudut Durango. Sangat fokus pada survival PvP dan pembangunan base pertahanan kuat."
+                },
+                "CrafterPro": {
+                    avatar: "https://placehold.co/150x150/2da44e/ffffff?text=CP",
+                    name: "CrafterPro",
+                    usernameTag: "@CrafterPro",
+                    joined: "Maret 2018",
+                    posts: 980,
+                    topics: 60,
+                    inGameName: "GearMaster",
+                    tribe: "DinoCrafters",
+                    favDino: "Ankylosaurus",
+                    bio: "Spesialis crafting di Durango. Suka membuat armor legendaris dan senjata unik. Siap berbagi resep dan tips crafting!"
+                },
+                "LoreKeeper": {
+                    avatar: "https://placehold.co/150x150/cf222e/ffffff?text=LK",
+                    name: "LoreKeeper",
+                    usernameTag: "@LoreKeeper",
+                    joined: "Mei 2018",
+                    posts: 720,
+                    topics: 45,
+                    inGameName: "AncientWhisper",
+                    tribe: "OldWorldLore",
+                    favDino: "Brachiosaurus",
+                    bio: "Terobsesi dengan sejarah dan misteri di balik dunia Durango. Seringkali menemukan rahasia tersembunyi dan lore yang terlupakan."
+                }
+            };
+
+            let currentUserProfile = dummyUsers["PionirSejati"]; // Default active profile for demonstration
+
+            viewProfileButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const username = event.currentTarget.dataset.username;
+                    currentUserProfile = dummyUsers[username];
+                    if (currentUserProfile) {
+                        renderProfile(currentUserProfile);
+                        openModal('profileModal');
+                    } else {
+                        alert('Profil tidak ditemukan (simulasi).');
+                    }
+                });
+            });
+
+            // Function to render profile data
+            const renderProfile = (user) => {
+                profileContent.innerHTML = `
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            ${user.avatar ? `<img src="${user.avatar}" alt="${user.name}">` : user.name.substring(0, 2).toUpperCase()}
+                        </div>
+                        <h2>${user.name}</h2>
+                        <span class="username-tag">${user.usernameTag}</span>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <strong>${user.posts}</strong>
+                            <span>Postingan</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>${user.topics}</strong>
+                            <span>Topik</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>${user.joined}</strong>
+                            <span>Bergabung</span>
+                        </div>
+                    </div>
+                    <div class="profile-bio">
+                        <h4>Tentang Saya <i class="fas fa-info-circle"></i></h4>
+                        <p>${user.bio}</p>
+                        ${user.inGameName ? `<p><strong>Nama In-Game:</strong> ${user.inGameName}</p>` : ''}
+                        ${user.tribe ? `<p><strong>Tribe/Clan:</strong> ${user.tribe}</p>` : ''}
+                        ${user.favDino ? `<p><strong>Dino Favorit:</strong> ${user.favDino}</p>` : ''}
+                    </div>
+                `;
+            };
+
+            // Handle Edit Profile Button
+            if (editProfileBtn) {
+                editProfileBtn.addEventListener('click', () => {
+                    closeModal('profileModal'); // Close profile view modal
+                    openModal('editProfileModal'); // Open edit profile modal
+                    // Pre-fill form with current profile data
+                    document.getElementById('editAvatar').value = currentUserProfile.avatar || '';
+                    document.getElementById('editBio').value = currentUserProfile.bio || '';
+                    document.getElementById('editInGameName').value = currentUserProfile.inGameName || '';
+                    document.getElementById('editTribe').value = currentUserProfile.tribe || '';
+                    document.getElementById('editFavDino').value = currentUserProfile.favDino || '';
+                });
+            }
+
+            // Handle Edit Profile Form Submission (Simulated)
+            if (editProfileForm) {
+                editProfileForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    currentUserProfile.avatar = document.getElementById('editAvatar').value;
+                    currentUserProfile.bio = document.getElementById('editBio').value;
+                    currentUserProfile.inGameName = document.getElementById('editInGameName').value;
+                    currentUserProfile.tribe = document.getElementById('editTribe').value;
+                    currentUserProfile.favDino = document.getElementById('editFavDino').value;
+
+                    console.log('Profile Updated (Simulated):', currentUserProfile);
+                    alert('Profil Anda berhasil diperbarui (simulasi)! Perubahan tidak akan tersimpan setelah refresh. Ini memerlukan backend.');
+                    closeModal('editProfileModal');
+                    renderProfile(currentUserProfile); // Re-render profile with new data
+                    openModal('profileModal'); // Re-open profile view
+                });
+            }
+
+            // --- Search Functionality (Simulated) ---
+            const searchInput = document.querySelector('.search-container input');
+            const searchButton = document.querySelector('.search-container .search-icon'); /* Changed to target the icon */
+
+            if (searchButton) {
+                searchButton.addEventListener('click', () => performSearch());
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+
+            const performSearch = () => {
+                const query = searchInput.value.trim();
+                if (query) {
+                    alert(`Melakukan pencarian untuk: "${query}" (simulasi). Fitur ini memerlukan backend.`);
+                    // In a real app, you'd send this query to your backend
+                } else {
+                    alert('Silakan masukkan kata kunci untuk pencarian.');
+                }
+            };
+        });
+    </script>
+</body>
+</html>
